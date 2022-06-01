@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/css/reset.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Handlee&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>A Simple Weather Dashboard</title>
+  </head>
+
+
+  <div class="topbar">
+    <section id="date-section" class="lead"></section>
+    <section id="clock-section" class="lead"></section>
+  </div>
+
+
+  <body>
+    <header class="jumbotron">
+      <h1 class="display-1 dancing">A Simple Weather Dashbard</h1>
+      <h4 class="running">Search below for the cities you would like to see</h4>
+    </header> 
+
+    <div class="row">
+      <aside class="col-sm-3 sidebar">
+        <div class="search-box">
+          <form>
+            <input  id="searched-city" type="text" class="form-control" placeholder="Enter Your Desired City Name Here">
+            <button id="search-button" class="btn btn-info">Search City</button>
+          </form>
+        </div>
+        <div id="citiesList"></div>
+      </aside>
+  
+      <section class="col-sm-9 mainbar"><hr>
+       
+        <div id="weather-today" class="row"></div>
+
+        <div class="col"><hr>             
+          <h2>5-Day Forecast</h2>
+        </div>
+  
+        <div id="weather-forecast" class="row">
+          <div class="col"></div>
+        </div>
+  
+      </section>  
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="emptyspace"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="./assets/scripts/script.js"></script>
+
+  </body>
