@@ -1,7 +1,7 @@
 var today = moment().format("dddd MMMM Do, YYYY");
 var currenthour = moment().format("HH");
 var weathertoday = $("#weather-today");
-console.log(weathertoday);
+// console.log(weathertoday);
 
 
 //Display Date and Time above the Header Section
@@ -79,13 +79,13 @@ $("#search-button").on("click", function (event) {
 
 function GRABWEATHERTODAY(city) {
   $(".mainbar").css("visibility",'visible');
-  var requestURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=bf44d6b9da075580825f81e2aa54cf78";
+  var requestURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=208c92a14cc1f9c42c03ca9c7b03be6f";
   fetch(requestURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      // console.log(data);
       timeupdated = moment.unix(data.dt).format("MM/DD/YYYY");
       $("#name").text(data.name);
       GRABWEATHERFORECAST(data.name);
@@ -105,14 +105,14 @@ function GRABWEATHERTODAY(city) {
 };
 
 function GRABUVINDEX(lat, lon) {
-  requestURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=bf44d6b9da075580825f81e2aa54cf78";
+  requestURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=208c92a14cc1f9c42c03ca9c7b03be6f";
   fetch(requestURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
       uvindex = data.value;
-      console.log(uvindex);
+      // console.log(uvindex);
       var UV = $(document.createElement('button'));
       UV.attr("class", "btn");
       UV.attr("id", "uv-btn");
@@ -135,16 +135,16 @@ function GRABUVINDEX(lat, lon) {
 
 function GRABWEATHERFORECAST(city) {
   $("#weather-forecast").empty();
-  var requestURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=metric&appid=bf44d6b9da075580825f81e2aa54cf78";
+  var requestURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=metric&appid=208c92a14cc1f9c42c03ca9c7b03be6f";
   fetch(requestURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      // console.log(data);
       for (var i = 0; i < data.list.length; i++) {
         if (data.list[i].dt_txt[11] === "1" && data.list[i].dt_txt[12] === "2") {
-          console.log(data.list[i]);
+          // console.log(data.list[i]);
           var forecastDate = moment.unix(data.list[i].dt).format("MM/DD/YYYY");
           var forecastIcon = data.list[i].weather[0].icon;
           var forecastIconURL = "https://openweathermap.org/img/w/" + forecastIcon + ".png";
