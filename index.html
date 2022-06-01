@@ -24,8 +24,8 @@
       <h4 class="running">Search below for the cities you would like to see</h4>
     </header> 
 
-    <div class="row">
-      <aside class="col-sm-3 sidebar">
+    <div class="row mainbody">
+      <aside class="col-lg-3 sidebar">
         <div class="search-box">
           <form>
             <input  id="searched-city" type="text" class="form-control" placeholder="Enter Your Desired City Name Here">
@@ -35,16 +35,34 @@
         <div id="citiesList"></div>
       </aside>
   
-      <section class="col-sm-9 mainbar"><hr>
+      <section class="col-lg-9 mainbar"><hr>
        
-        <div id="weather-today" class="row"></div>
+        <div class="row mainrow">
+          <div class="col-4 running" id="temp-display">
+            <h3 id="name" class="dancing"></h3>
+            <h3 id="date" class="running"></h3>
+            <h3 id="temp-today" class="dancing"></h3>
+          </div>
 
-        <div class="col"><hr>             
-          <h2>5-Day Forecast</h2>
+          <div id="weather-today"  class="col-8 running">
+            <p id="condition"></p>
+            <p id="temp"></p>
+            <p id="humidity"></p>
+            <p id="wind"></p>
+            <p id="uv-index"></p> 
+          </div>
+        </div>
+
+
+
+
+        
+
+        <div class="col-12 running"><hr>             
+          <h1>5-Day Noon Weather Forecast</h1>
         </div>
   
         <div id="weather-forecast" class="row">
-          <div class="col"></div>
         </div>
   
       </section>  

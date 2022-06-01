@@ -1,5 +1,7 @@
 var today = moment().format("dddd MMMM Do, YYYY");
 var currenthour = moment().format("HH");
+var weathertoday = $("#weather-today");
+console.log(weathertoday);
 
 
 //Display Date and Time above the Header Section
@@ -22,9 +24,10 @@ var cities = [];
 function GRABALLCITIES() {
   cities = JSON.parse(localStorage.getItem("listofcities"));
   if (cities) {
-    // getweatherdata
+    GRABWEATHERTODAY(cities[cities.length -1]);
   } else {
     cities = [];
+    $(".mainbar").css("visibility",'hidden');
   }
 }
 GRABALLCITIES();
@@ -39,7 +42,7 @@ function SHOWCITIES() {
     $("#citiesList").append(newBtn);
     }
   }
-  $(".listBtn").on("click", function (event) {
+  $(".btn-warning").on("click", function (event) {
     var city = $(this).text();
     GRABWEATHERTODAY(city);
   })
@@ -70,8 +73,101 @@ $("#search-button").on("click", function (event) {
   }
   $("#searched-city").val("");
   SHOWCITIES();
-  // GRABWEATHERTODAY(city);
+  GRABWEATHERTODAY(city);
 });
+
+
+function GRABWEATHERTODAY(city) {
+  $(".mainbar").css("visibility",'visible');
+  var requestURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=bf44d6b9da075580825f81e2aa54cf78";
+  fetch(requestURL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      timeupdated = moment.unix(data.dt).format("MM/DD/YYYY");
+      $("#name").text(data.name);
+      GRABWEATHERFORECAST(data.name);
+      $("#date").text(" (" + timeupdated + ")");
+      var iconURL = "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png";
+      $("#condition").text("weather: " + data.weather[0].description);
+      $("#condition").append(`<img src=${iconURL}>`);
+      $("#temp").text("temperature: " + data.main.temp + " \u00B0C");
+      $("#temp-today").text(data.main.temp + " \u00B0C");
+      $("#humidity").text("humidity: " + data.main.humidity + "%");
+      $("#wind").text("wind speed: " + data.wind.speed + " m/s");
+      $('#uv-index').text("uv index: ");
+      var lon = data.coord.lon;
+      var lat = data.coord.lat;
+      GRABUVINDEX(lat, lon);
+    })
+};
+
+function GRABUVINDEX(lat, lon) {
+  requestURL = "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=bf44d6b9da075580825f81e2aa54cf78";
+  fetch(requestURL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      uvindex = data.value;
+      console.log(uvindex);
+      var UV = $(document.createElement('button'));
+      UV.attr("class", "btn");
+      UV.attr("id", "uv-btn");
+      UV.text(uvindex);
+
+      if (uvindex <= 3) {
+        UV.css("background-color", "green");
+      } else if (uvindex > 3 && uvindex <= 6) {
+        UV.css("background-color", "yellow");
+      } else if (uvindex > 6 && uvindex <= 9) {
+        UV.css("background-color", "orange");
+      } else if (uvindex > 9 && uvindex <= 12) {
+        UV.css("background-color", "purple");
+      }
+      $('#uv-index').append(UV);
+    })
+}
+
+
+
+function GRABWEATHERFORECAST(city) {
+  $("#weather-forecast").empty();
+  var requestURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=metric&appid=bf44d6b9da075580825f81e2aa54cf78";
+  fetch(requestURL)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      for (var i = 0; i < data.list.length; i++) {
+        if (data.list[i].dt_txt[11] === "1" && data.list[i].dt_txt[12] === "2") {
+          console.log(data.list[i]);
+          var forecastDate = moment.unix(data.list[i].dt).format("MM/DD/YYYY");
+          var forecastIcon = data.list[i].weather[0].icon;
+          var forecastIconURL = "https://openweathermap.org/img/w/" + forecastIcon + ".png";
+          var forecastTemperature = data.list[i].main.temp;
+          var forecastHumidity =  data.list[i].main.humidity;
+          $("#weather-forecast").append(
+          `<div class="col running card-parent">
+            <div class="card">
+              <div>
+                <h5>${forecastDate}</h5>
+                <img alt="forecast" src="${forecastIconURL}"> <hr>
+                <p>temperature:<br> ${forecastTemperature} \u00B0C</p> <hr>
+                <p>humidity:<br> ${forecastHumidity}%</p> <hr>
+              </div>
+            </div>
+          </div>`
+          );
+        }
+      }
+    })
+  }
+
+
 
 
 
